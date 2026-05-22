@@ -15,10 +15,14 @@ export async function POST(req: NextRequest) {
     const analysisId = Math.random().toString(36).slice(2, 10);
     const result = await runAnalysis({ analysisId, businessMode: businessMode || "existing", businessName, categories, country, city, website: website || undefined });
 
-    // Persist to data/runs/
-    const dir = join(process.cwd(), "data", "runs");
-    await mkdir(dir, { recursive: true });
-    await writeFile(join(dir, `${analysisId}.json`), JSON.stringify(result, null, 2));
+    // Persist locally for development — on Vercel the filesystem is read-only so we skip this
+    try {
+      const dir = join(process.cwd(), "data", "runs");
+      await mkdir(dir, { recursive: true });
+      await writeFile(join(dir, `${analysisId}.json`), JSON.stringify(result, null, 2));
+    } catch {
+      // Not critical — dashboard reads from sessionStorage on the client
+    }
 
     return NextResponse.json(result);
   } catch (e: unknown) {
