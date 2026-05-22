@@ -3,6 +3,8 @@ import { runAnalysis } from "@/lib/engine";
 import { writeFile, mkdir } from "fs/promises";
 import { join } from "path";
 
+export const maxDuration = 60;
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
