@@ -819,35 +819,23 @@ export async function runAnalysis(params: {
     };
   });
 
-  // Pause so competitor tokens clear the rolling TPM window
-  await new Promise((r) => setTimeout(r, 3000));
+  // Brief pause so competitor tokens settle before the next batch
+  await new Promise((r) => setTimeout(r, 1000));
 
-  // Step 2a: Market intelligence (2 calls)
-  const [marketOverview, customerPsychology] = await Promise.allSettled([
+  // Step 2: Core market intelligence (4 calls in parallel)
+  const [marketOverview, customerPsychology, marketGaps, localLandscape] = await Promise.allSettled([
     getMarketOverview(ctx),
     getCustomerPsychology(ctx),
-  ]);
-
-  await new Promise((r) => setTimeout(r, 2500));
-
-  // Step 2b: Landscape intelligence (2 calls)
-  const [marketGaps, localLandscape] = await Promise.allSettled([
     getMarketGaps(ctx),
     getLocalLandscape(city, country, categories, webResults),
   ]);
 
-  await new Promise((r) => setTimeout(r, 2500));
+  await new Promise((r) => setTimeout(r, 1000));
 
-  // Step 3a: Brand strategy (2 calls)
-  const [brandPositioning, contentStrategy] = await Promise.allSettled([
+  // Step 3: Strategy modules (4 calls in parallel)
+  const [brandPositioning, contentStrategy, actionPlan, seoAudit] = await Promise.allSettled([
     getBrandPositioning(ctx, businessName),
     getContentStrategy(ctx, businessName),
-  ]);
-
-  await new Promise((r) => setTimeout(r, 2500));
-
-  // Step 3b: Action plan + SEO (2 calls)
-  const [actionPlan, seoAudit] = await Promise.allSettled([
     getActionPlan(ctx, businessName, competitorSummary),
     website ? getSEOAudit(website, businessName, country, city, categories) : Promise.resolve(null),
   ]);
@@ -858,7 +846,7 @@ export async function runAnalysis(params: {
     topSearches?: string[];
   };
 
-  await new Promise((r) => setTimeout(r, 2000));
+  await new Promise((r) => setTimeout(r, 1000));
 
   // Step 4: Secondary signals — run last so they never steal quota from core modules
   let sectorSocialSignals = null;
