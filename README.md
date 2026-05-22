@@ -25,9 +25,13 @@ Stratiq runs 10 AI analysis modules and synthesizes them into one interactive da
 
 ---
 
+## Live Demo
+
+**[stratiq-mauve.vercel.app](https://stratiq-mauve.vercel.app)** — try it free, no sign up needed.
+
 ## Screenshots
 
-> *Add screenshots of your dashboard here after deploying*
+> *Add screenshots of your dashboard here*
 
 ---
 
@@ -134,7 +138,7 @@ src/
 
 ## Roadmap
 
-- [ ] Deploy live demo
+- [x] Deploy live demo → [stratiq-mauve.vercel.app](https://stratiq-mauve.vercel.app)
 - [ ] PDF export with branded cover
 - [ ] Multi-city comparison
 - [ ] Monthly tracking (run analysis each month, see how your market shifts)
