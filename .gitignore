@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local analysis runs (user data, don't commit)
+/data/runs/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
